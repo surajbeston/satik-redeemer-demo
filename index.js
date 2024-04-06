@@ -10,6 +10,8 @@ import fs from 'fs';
 import { TOKEN_PROGRAM_ID, mintTo } from '@solana/spl-token';
 
 const app = express();
+const port = process.env.PORT || 3001;
+
 
 const idl = JSON.parse(fs.readFileSync('satik.json', 'utf8'));
 
@@ -84,4 +86,4 @@ app.get('/mint', async (req, res) => {
 
 
 
-app.listen(3000, () => console.log('Example app is listening on port 3000.'));
+app.listen(port, () => console.log('Example app is listening on port 3000.'));
