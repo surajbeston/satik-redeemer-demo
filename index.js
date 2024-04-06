@@ -44,7 +44,7 @@ const purchases = await program.account.purchase.all();
 
 app.get('/', async (req, res) => {
     if (!req.query.purchaseAddress || !req.query.bump) {
-        res.status(301).send('Please provide purchaseAddress');
+        res.send('Please provide purchaseAddress');
     }
     try{
         const purchaseAddress = new PublicKey(req.query.purchaseAddress);
