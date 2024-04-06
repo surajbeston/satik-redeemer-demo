@@ -43,24 +43,24 @@ const purchases = await program.account.purchase.all();
 // console.log(purchases);
 
 app.get('/', async (req, res) => {
-    const purchaseAddress = new PublicKey(req.query.purchaseAddress);
-    const purchase = program.account.purchase.fetch(purchaseAddress);
+    // const purchaseAddress = new PublicKey(req.query.purchaseAddress);
+    // const purchase = program.account.purchase.fetch(purchaseAddress);
 
-    const redeemDatetimeAddress = new anchor.web3.Keypair.generate();
-    const mint = new PublicKey("8TYBs78yzk662G5oDv84um73Xthy51nu4mkgKNYcZjzy");
+    // const redeemDatetimeAddress = new anchor.web3.Keypair.generate();
+    // const mint = new PublicKey("8TYBs78yzk662G5oDv84um73Xthy51nu4mkgKNYcZjzy");
     
-    const tx6 = await program.methods.redeemAmount(bump)
-                                    .accounts({
-                                        redeemDatetime: redeemDatetimeAddress.publicKey,
-                                        purchase: purchase,
-                                        brandReceiver: purchase.brandReceiver,
-                                        influencerReceiver: purchase.influencerReceiver,
-                                        satikReceiver: purchase.satikReceiver,
-                                        escrow: purchase.escrow,
-                                        mint: mint,
-                                        tokenProgram: TOKEN_PROGRAM_ID
-                                    })
-                                    .signers([redeemDatetimeAddress, wallet])
+    // const tx6 = await program.methods.redeemAmount(bump)
+    //                                 .accounts({
+    //                                     redeemDatetime: redeemDatetimeAddress.publicKey,
+    //                                     purchase: purchase,
+    //                                     brandReceiver: purchase.brandReceiver,
+    //                                     influencerReceiver: purchase.influencerReceiver,
+    //                                     satikReceiver: purchase.satikReceiver,
+    //                                     escrow: purchase.escrow,
+    //                                     mint: mint,
+    //                                     tokenProgram: TOKEN_PROGRAM_ID
+    //                                 })
+    //                                 .signers([redeemDatetimeAddress, wallet])
     res.send('Successful response.');
 })
 
