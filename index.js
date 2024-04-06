@@ -10,7 +10,7 @@ import fs from 'fs';
 import { TOKEN_PROGRAM_ID, mintTo } from '@solana/spl-token';
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3002;
 
 
 const idl = JSON.parse(fs.readFileSync('satik.json', 'utf8'));
@@ -45,6 +45,7 @@ const purchases = await program.account.purchase.all();
 app.get('/', async (req, res) => {
     if (!req.query.purchaseAddress || !req.query.bump) {
         res.send('Please provide purchaseAddress');
+        return;
     }
     try{
         const purchaseAddress = new PublicKey(req.query.purchaseAddress);
@@ -82,11 +83,13 @@ app.get('/', async (req, res) => {
         res.status(500).send("Something went horribly wrong")
     }
     res.send('Successful response.');
+    return;
 })
 
 app.get('/mint', async (req, res) => {
     if (!req.query.address || !req.query.amount) {
         res.status(301).send('Please provide address and amount');
+        return;
     }
     const customer_ATA = new PublicKey(req.query.address);
     const amount = req.query.amount;
@@ -101,6 +104,7 @@ app.get('/mint', async (req, res) => {
         amount
     )
     res.send(req.query);
+    return;
 })
 
 
