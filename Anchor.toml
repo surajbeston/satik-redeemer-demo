@@ -1,0 +1,23 @@
+[toolchain]
+
+[features]
+seeds = false
+skip-lint = false
+
+[programs.devnet]
+satik = "HCbLy5R4323caot2m8sTdh567oRwmurE8QhHDYGJYDFm"
+
+[programs.localnet]
+satik = "HCbLy5R4323caot2m8sTdh567oRwmurE8QhHDYGJYDFm"
+
+[registry]
+url = "https://api.apr.dev"
+
+[provider]
+cluster = "Devnet"
+wallet = "/home/suraj/.config/solana/id.json"
+
+[scripts]
+index = "bun run src_js/index.ts"
+oracle = "bun run src_js/oracle.ts"
+test = "bun run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"

@@ -1,58 +1,622 @@
 {
-    "version": "0.1.0",
-    "name": "satik",
-    "instructions": [
-      {
-        "name": "initializeBrand",
-        "accounts": [
-          {
-            "name": "brand",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "usdcAta",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "mint",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "tokenProgram",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "associatedTokenProgram",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "rent",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "signer",
-            "isMut": true,
-            "isSigner": true
-          },
-          {
-            "name": "systemProgram",
-            "isMut": false,
-            "isSigner": false
+  "version": "0.1.0",
+  "name": "satik",
+  "instructions": [
+    {
+      "name": "initializeBrand",
+      "accounts": [
+        {
+          "name": "brand",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "usdcAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "username",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "profileImage",
+          "type": "string"
+        },
+        {
+          "name": "bio",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "initializeInfluencer",
+      "accounts": [
+        {
+          "name": "influencer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "usdcAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "username",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "profileImage",
+          "type": "string"
+        },
+        {
+          "name": "bio",
+          "type": "string"
+        },
+        {
+          "name": "totalFollowers",
+          "type": "u64"
+        },
+        {
+          "name": "socialMedia",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "initializeProposal",
+      "accounts": [
+        {
+          "name": "proposal",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "brand",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "influencer",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "message",
+          "type": "string"
+        },
+        {
+          "name": "redeemer",
+          "type": "publicKey"
+        },
+        {
+          "name": "redeemerUrl",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "addProposalWebpage",
+      "accounts": [
+        {
+          "name": "proposal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "webpage",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "initializeProduct",
+      "accounts": [
+        {
+          "name": "product",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "proposal",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "totalAmount",
+          "type": "u64"
+        },
+        {
+          "name": "influencerAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "acceptProposal",
+      "accounts": [
+        {
+          "name": "proposal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "purchase",
+      "accounts": [
+        {
+          "name": "purchase",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proposal",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "product",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "brandAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "influencerAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "customerAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "usdcTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "id",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "redeemAmount",
+      "accounts": [
+        {
+          "name": "redeemDatetime",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "purchase",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "brandReceiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "influencerReceiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "createDeal",
+      "accounts": [
+        {
+          "name": "deal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dealUsdcAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "brand",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "brandUsdcAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "influencer",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": {
+            "defined": "CreateDealData"
           }
-        ],
-        "args": [
+        }
+      ]
+    },
+    {
+      "name": "acceptDeal",
+      "accounts": [
+        {
+          "name": "influencer",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "deal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "contentUrl",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "scheduleFeed",
+      "accounts": [
+        {
+          "name": "deal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardAttestation",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardAttestationState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardAttestationQueue",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardFunction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardRequest",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "switchboardRequestEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "scheduledFeedCallback",
+      "accounts": [
+        {
+          "name": "deal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dealUsdcAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "influencerUsdcAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "brandUsdcAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "enclaveSigner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": {
+            "defined": "ApiFeedData"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Brand",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
-            "name": "username",
+            "name": "name",
             "type": "string"
           },
           {
-            "name": "name",
+            "name": "createdBy",
+            "type": "publicKey"
+          },
+          {
+            "name": "username",
             "type": "string"
           },
           {
@@ -62,60 +626,25 @@
           {
             "name": "bio",
             "type": "string"
-          }
-        ]
-      },
-      {
-        "name": "initializeInfluencer",
-        "accounts": [
-          {
-            "name": "influencer",
-            "isMut": true,
-            "isSigner": false
           },
           {
             "name": "usdcAta",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "mint",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "tokenProgram",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "associatedTokenProgram",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "rent",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "signer",
-            "isMut": true,
-            "isSigner": true
-          },
-          {
-            "name": "systemProgram",
-            "isMut": false,
-            "isSigner": false
+            "type": "publicKey"
           }
-        ],
-        "args": [
+        ]
+      }
+    },
+    {
+      "name": "Influencer",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
-            "name": "username",
+            "name": "name",
             "type": "string"
           },
           {
-            "name": "name",
+            "name": "username",
             "type": "string"
           },
           {
@@ -125,106 +654,89 @@
           {
             "name": "bio",
             "type": "string"
+          },
+          {
+            "name": "createdBy",
+            "type": "publicKey"
+          },
+          {
+            "name": "usdcAta",
+            "type": "publicKey"
+          },
+          {
+            "name": "totalFollowers",
+            "type": "u64"
+          },
+          {
+            "name": "socialMedia",
+            "type": "string"
           }
         ]
-      },
-      {
-        "name": "initializeProposal",
-        "accounts": [
-          {
-            "name": "proposal",
-            "isMut": true,
-            "isSigner": true
-          },
+      }
+    },
+    {
+      "name": "Proposal",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
             "name": "brand",
-            "isMut": false,
-            "isSigner": false
+            "type": "publicKey"
           },
           {
-            "name": "influencer",
-            "isMut": false,
-            "isSigner": false
+            "name": "influencerKey",
+            "type": "publicKey"
           },
           {
-            "name": "signer",
-            "isMut": true,
-            "isSigner": true
+            "name": "webpage",
+            "type": "string"
           },
-          {
-            "name": "systemProgram",
-            "isMut": false,
-            "isSigner": false
-          }
-        ],
-        "args": [
           {
             "name": "message",
             "type": "string"
           },
           {
-            "name": "redeemer",
+            "name": "datetime",
+            "type": "i64"
+          },
+          {
+            "name": "createdBy",
             "type": "publicKey"
-          }
-        ]
-      },
-      {
-        "name": "addProposalWebpage",
-        "accounts": [
-          {
-            "name": "proposal",
-            "isMut": false,
-            "isSigner": false
           },
           {
-            "name": "signer",
-            "isMut": true,
-            "isSigner": true
+            "name": "accepted",
+            "type": "bool"
           },
           {
-            "name": "systemProgram",
-            "isMut": false,
-            "isSigner": false
-          }
-        ],
-        "args": [
+            "name": "brandAta",
+            "type": "publicKey"
+          },
           {
-            "name": "webpage",
+            "name": "influencerAta",
+            "type": "publicKey"
+          },
+          {
+            "name": "brandRedeemer",
+            "type": "publicKey"
+          },
+          {
+            "name": "redeemerUrl",
             "type": "string"
           }
         ]
-      },
-      {
-        "name": "initializeProduct",
-        "accounts": [
-          {
-            "name": "product",
-            "isMut": true,
-            "isSigner": true
-          },
+      }
+    },
+    {
+      "name": "Product",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
             "name": "proposal",
-            "isMut": false,
-            "isSigner": false
+            "type": "publicKey"
           },
-          {
-            "name": "signer",
-            "isMut": true,
-            "isSigner": true
-          },
-          {
-            "name": "systemProgram",
-            "isMut": false,
-            "isSigner": false
-          }
-        ],
-        "args": [
           {
             "name": "name",
-            "type": "string"
-          },
-          {
-            "name": "description",
             "type": "string"
           },
           {
@@ -232,819 +744,326 @@
             "type": "u64"
           },
           {
+            "name": "description",
+            "type": "string"
+          },
+          {
             "name": "influencerAmount",
+            "type": "u64"
+          },
+          {
+            "name": "satikAmount",
+            "type": "u64"
+          },
+          {
+            "name": "brandAmount",
             "type": "u64"
           }
         ]
-      },
-      {
-        "name": "acceptProposal",
-        "accounts": [
-          {
-            "name": "proposal",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "signer",
-            "isMut": true,
-            "isSigner": true
-          },
-          {
-            "name": "systemProgram",
-            "isMut": false,
-            "isSigner": false
-          }
-        ],
-        "args": []
-      },
-      {
-        "name": "purchase",
-        "accounts": [
-          {
-            "name": "purchase",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "proposal",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "product",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "brandAta",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "influencerAta",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "customerAta",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "usdcTokenAccount",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "mint",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "tokenProgram",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "associatedTokenProgram",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "rent",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "signer",
-            "isMut": true,
-            "isSigner": true
-          },
-          {
-            "name": "systemProgram",
-            "isMut": false,
-            "isSigner": false
-          }
-        ],
-        "args": [
+      }
+    },
+    {
+      "name": "Purchase",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
             "name": "id",
             "type": "string"
-          }
-        ]
-      },
-      {
-        "name": "redeemAmount",
-        "accounts": [
-          {
-            "name": "redeemDatetime",
-            "isMut": true,
-            "isSigner": true
           },
           {
-            "name": "purchase",
-            "isMut": true,
-            "isSigner": false
+            "name": "paidBy",
+            "type": "publicKey"
+          },
+          {
+            "name": "product",
+            "type": "publicKey"
           },
           {
             "name": "brandReceiver",
-            "isMut": true,
-            "isSigner": false
+            "type": "publicKey"
           },
           {
             "name": "influencerReceiver",
-            "isMut": true,
-            "isSigner": false
+            "type": "publicKey"
           },
           {
             "name": "satikReceiver",
-            "isMut": true,
-            "isSigner": false
+            "type": "publicKey"
+          },
+          {
+            "name": "brandCreatedBy",
+            "type": "publicKey"
           },
           {
             "name": "escrow",
-            "isMut": true,
-            "isSigner": false
+            "type": "publicKey"
           },
           {
-            "name": "tokenProgram",
-            "isMut": false,
-            "isSigner": false
+            "name": "totalAmount",
+            "type": "u64"
           },
           {
-            "name": "mint",
-            "isMut": false,
-            "isSigner": false
+            "name": "brandAmount",
+            "type": "u64"
           },
           {
-            "name": "signer",
-            "isMut": true,
-            "isSigner": true
+            "name": "satikAmount",
+            "type": "u64"
           },
           {
-            "name": "systemProgram",
-            "isMut": false,
-            "isSigner": false
+            "name": "influencerAmount",
+            "type": "u64"
+          },
+          {
+            "name": "purchaseDatetime",
+            "type": "i64"
+          },
+          {
+            "name": "redeemer",
+            "type": "publicKey"
+          },
+          {
+            "name": "redeemed",
+            "type": "bool"
           }
-        ],
-        "args": [
+        ]
+      }
+    },
+    {
+      "name": "RedeemDatetime",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "redeemedOn",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Deal",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "brand",
+            "type": "publicKey"
+          },
+          {
+            "name": "influencer",
+            "type": "publicKey"
+          },
+          {
+            "name": "dealUsdcAta",
+            "type": "publicKey"
+          },
+          {
+            "name": "initialAmount",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "initialAmountOnReach",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "startsOn",
+            "type": "i64"
+          },
+          {
+            "name": "startsOnReach",
+            "type": "u64"
+          },
+          {
+            "name": "endsOn",
+            "type": "i64"
+          },
+          {
+            "name": "endsOnReach",
+            "type": "u64"
+          },
+          {
+            "name": "cpm",
+            "type": "u64"
+          },
+          {
+            "name": "lastPaidOn",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "lastPaidOnReach",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "contentUrl",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "initialAmountPaid",
+            "type": "bool"
+          },
+          {
+            "name": "feedScheduled",
+            "type": "bool"
+          },
+          {
+            "name": "influencerAccepted",
+            "type": "bool"
+          },
+          {
+            "name": "dealEnded",
+            "type": "bool"
+          },
+          {
+            "name": "returnedRemainingToken",
+            "type": "bool"
+          },
+          {
+            "name": "idSeed",
+            "type": "string"
+          },
           {
             "name": "bump",
             "type": "u8"
           }
         ]
-      },
-      {
-        "name": "createDeal",
-        "accounts": [
+      }
+    },
+    {
+      "name": "UserAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
-            "name": "deal",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "dealUsdcAta",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "brand",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "brandUsdcAta",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "influencer",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "payer",
-            "isMut": true,
-            "isSigner": true
-          },
-          {
-            "name": "tokenProgram",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "systemProgram",
-            "isMut": false,
-            "isSigner": false
-          }
-        ],
-        "args": [
-          {
-            "name": "data",
-            "type": {
-              "defined": "CreateDealData"
-            }
+            "name": "bump",
+            "type": "u8"
           }
         ]
-      },
-      {
-        "name": "acceptDeal",
-        "accounts": [
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "ApiFeedData",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
-            "name": "influencer",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "deal",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "signer",
-            "isMut": true,
-            "isSigner": true
-          },
-          {
-            "name": "systemProgram",
-            "isMut": false,
-            "isSigner": false
+            "name": "reach",
+            "type": "u64"
           }
-        ],
-        "args": [
+        ]
+      }
+    },
+    {
+      "name": "CreateDealData",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
-            "name": "contentUrl",
+            "name": "initialAmount",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "initialAmountOnReach",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "startsOn",
+            "type": "i64"
+          },
+          {
+            "name": "startsOnReach",
+            "type": "u64"
+          },
+          {
+            "name": "endsOn",
+            "type": "i64"
+          },
+          {
+            "name": "endsOnReach",
+            "type": "u64"
+          },
+          {
+            "name": "cpm",
+            "type": "u64"
+          },
+          {
+            "name": "idSeed",
             "type": "string"
           }
         ]
-      },
-      {
-        "name": "scheduleFeed",
-        "accounts": [
+      }
+    },
+    {
+      "name": "SbApiFeedParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
-            "name": "deal",
-            "isMut": true,
-            "isSigner": false
+            "name": "programId",
+            "type": "publicKey"
           },
           {
-            "name": "switchboardAttestation",
-            "isMut": false,
-            "isSigner": false
+            "name": "dealPk",
+            "type": "publicKey"
           },
           {
-            "name": "switchboardAttestationState",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "switchboardAttestationQueue",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "switchboardFunction",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "switchboardRequest",
-            "isMut": true,
-            "isSigner": true
-          },
-          {
-            "name": "switchboardRequestEscrow",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "switchboardMint",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "tokenProgram",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "associatedTokenProgram",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "payer",
-            "isMut": true,
-            "isSigner": true
-          },
-          {
-            "name": "systemProgram",
-            "isMut": false,
-            "isSigner": false
-          }
-        ],
-        "args": []
-      },
-      {
-        "name": "scheduledFeedCallback",
-        "accounts": [
-          {
-            "name": "deal",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "dealUsdcAta",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "influencerUsdcAta",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "brandUsdcAta",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "enclaveSigner",
-            "isMut": false,
-            "isSigner": true
-          },
-          {
-            "name": "tokenProgram",
-            "isMut": false,
-            "isSigner": false
-          },
-          {
-            "name": "systemProgram",
-            "isMut": false,
-            "isSigner": false
-          }
-        ],
-        "args": [
-          {
-            "name": "data",
-            "type": {
-              "defined": "ApiFeedData"
-            }
+            "name": "url",
+            "type": "string"
           }
         ]
       }
-    ],
-    "accounts": [
-      {
-        "name": "Brand",
-        "type": {
-          "kind": "struct",
-          "fields": [
-            {
-              "name": "name",
-              "type": "string"
-            },
-            {
-              "name": "createdBy",
-              "type": "publicKey"
-            },
-            {
-              "name": "username",
-              "type": "string"
-            },
-            {
-              "name": "profileImage",
-              "type": "string"
-            },
-            {
-              "name": "bio",
-              "type": "string"
-            },
-            {
-              "name": "usdcAta",
-              "type": "publicKey"
-            }
-          ]
-        }
-      },
-      {
-        "name": "Influencer",
-        "type": {
-          "kind": "struct",
-          "fields": [
-            {
-              "name": "name",
-              "type": "string"
-            },
-            {
-              "name": "username",
-              "type": "string"
-            },
-            {
-              "name": "profileImage",
-              "type": "string"
-            },
-            {
-              "name": "bio",
-              "type": "string"
-            },
-            {
-              "name": "createdBy",
-              "type": "publicKey"
-            },
-            {
-              "name": "usdcAta",
-              "type": "publicKey"
-            }
-          ]
-        }
-      },
-      {
-        "name": "Proposal",
-        "type": {
-          "kind": "struct",
-          "fields": [
-            {
-              "name": "brand",
-              "type": "publicKey"
-            },
-            {
-              "name": "influencerKey",
-              "type": "publicKey"
-            },
-            {
-              "name": "webpage",
-              "type": "string"
-            },
-            {
-              "name": "message",
-              "type": "string"
-            },
-            {
-              "name": "datetime",
-              "type": "u64"
-            },
-            {
-              "name": "createdBy",
-              "type": "publicKey"
-            },
-            {
-              "name": "accepted",
-              "type": "bool"
-            },
-            {
-              "name": "brandAta",
-              "type": "publicKey"
-            },
-            {
-              "name": "influencerAta",
-              "type": "publicKey"
-            },
-            {
-              "name": "brandRedeemer",
-              "type": "publicKey"
-            }
-          ]
-        }
-      },
-      {
-        "name": "Product",
-        "type": {
-          "kind": "struct",
-          "fields": [
-            {
-              "name": "proposal",
-              "type": "publicKey"
-            },
-            {
-              "name": "name",
-              "type": "string"
-            },
-            {
-              "name": "totalAmount",
-              "type": "u64"
-            },
-            {
-              "name": "description",
-              "type": "string"
-            },
-            {
-              "name": "influencerAmount",
-              "type": "u64"
-            },
-            {
-              "name": "satikAmount",
-              "type": "u64"
-            },
-            {
-              "name": "brandAmount",
-              "type": "u64"
-            }
-          ]
-        }
-      },
-      {
-        "name": "Purchase",
-        "type": {
-          "kind": "struct",
-          "fields": [
-            {
-              "name": "id",
-              "type": "string"
-            },
-            {
-              "name": "paidBy",
-              "type": "publicKey"
-            },
-            {
-              "name": "product",
-              "type": "publicKey"
-            },
-            {
-              "name": "brandReceiver",
-              "type": "publicKey"
-            },
-            {
-              "name": "influencerReceiver",
-              "type": "publicKey"
-            },
-            {
-              "name": "satikReceiver",
-              "type": "publicKey"
-            },
-            {
-              "name": "brandCreatedBy",
-              "type": "publicKey"
-            },
-            {
-              "name": "escrow",
-              "type": "publicKey"
-            },
-            {
-              "name": "totalAmount",
-              "type": "u64"
-            },
-            {
-              "name": "brandAmount",
-              "type": "u64"
-            },
-            {
-              "name": "satikAmount",
-              "type": "u64"
-            },
-            {
-              "name": "influencerAmount",
-              "type": "u64"
-            },
-            {
-              "name": "purchaseDatetime",
-              "type": "i64"
-            },
-            {
-              "name": "redeemer",
-              "type": "publicKey"
-            },
-            {
-              "name": "redeemed",
-              "type": "bool"
-            }
-          ]
-        }
-      },
-      {
-        "name": "RedeemDatetime",
-        "type": {
-          "kind": "struct",
-          "fields": [
-            {
-              "name": "redeemedOn",
-              "type": "i64"
-            }
-          ]
-        }
-      },
-      {
-        "name": "Deal",
-        "type": {
-          "kind": "struct",
-          "fields": [
-            {
-              "name": "brand",
-              "type": "publicKey"
-            },
-            {
-              "name": "influencer",
-              "type": "publicKey"
-            },
-            {
-              "name": "dealUsdcAta",
-              "type": "publicKey"
-            },
-            {
-              "name": "initialAmount",
-              "type": {
-                "option": "u64"
-              }
-            },
-            {
-              "name": "initialAmountOnReach",
-              "type": {
-                "option": "u64"
-              }
-            },
-            {
-              "name": "startsOn",
-              "type": "i64"
-            },
-            {
-              "name": "startsOnReach",
-              "type": "u64"
-            },
-            {
-              "name": "endsOn",
-              "type": "i64"
-            },
-            {
-              "name": "endsOnReach",
-              "type": "u64"
-            },
-            {
-              "name": "cpm",
-              "type": "u64"
-            },
-            {
-              "name": "lastPaidOn",
-              "type": {
-                "option": "i64"
-              }
-            },
-            {
-              "name": "lastPaidOnReach",
-              "type": {
-                "option": "u64"
-              }
-            },
-            {
-              "name": "contentUrl",
-              "type": {
-                "option": "string"
-              }
-            },
-            {
-              "name": "initialAmountPaid",
-              "type": "bool"
-            },
-            {
-              "name": "feedScheduled",
-              "type": "bool"
-            },
-            {
-              "name": "influencerAccepted",
-              "type": "bool"
-            },
-            {
-              "name": "dealEnded",
-              "type": "bool"
-            },
-            {
-              "name": "returnedRemainingToken",
-              "type": "bool"
-            },
-            {
-              "name": "idSeed",
-              "type": "string"
-            },
-            {
-              "name": "bump",
-              "type": "u8"
-            }
-          ]
-        }
-      },
-      {
-        "name": "UserAccount",
-        "type": {
-          "kind": "struct",
-          "fields": [
-            {
-              "name": "bump",
-              "type": "u8"
-            }
-          ]
-        }
-      }
-    ],
-    "types": [
-      {
-        "name": "ApiFeedData",
-        "type": {
-          "kind": "struct",
-          "fields": [
-            {
-              "name": "reach",
-              "type": "u64"
-            }
-          ]
-        }
-      },
-      {
-        "name": "CreateDealData",
-        "type": {
-          "kind": "struct",
-          "fields": [
-            {
-              "name": "initialAmount",
-              "type": {
-                "option": "u64"
-              }
-            },
-            {
-              "name": "initialAmountOnReach",
-              "type": {
-                "option": "u64"
-              }
-            },
-            {
-              "name": "startsOn",
-              "type": "i64"
-            },
-            {
-              "name": "startsOnReach",
-              "type": "u64"
-            },
-            {
-              "name": "endsOn",
-              "type": "i64"
-            },
-            {
-              "name": "endsOnReach",
-              "type": "u64"
-            },
-            {
-              "name": "cpm",
-              "type": "u64"
-            },
-            {
-              "name": "idSeed",
-              "type": "string"
-            }
-          ]
-        }
-      },
-      {
-        "name": "SbApiFeedParams",
-        "type": {
-          "kind": "struct",
-          "fields": [
-            {
-              "name": "programId",
-              "type": "publicKey"
-            },
-            {
-              "name": "dealPk",
-              "type": "publicKey"
-            },
-            {
-              "name": "url",
-              "type": "string"
-            }
-          ]
-        }
-      }
-    ],
-    "errors": [
-      {
-        "code": 6000,
-        "name": "UnexpectedProposalError",
-        "msg": "Given proposal is not same as given product's proposal"
-      },
-      {
-        "code": 6001,
-        "name": "UnexpectedBrandATAError",
-        "msg": "Given brand_ata/brand_receiver is not same as proposal's"
-      },
-      {
-        "code": 6002,
-        "name": "ProposalNotExpectedError",
-        "msg": "Given proposal is not expected by influencer"
-      },
-      {
-        "code": 6003,
-        "name": "UnexpectedInfluencerError",
-        "msg": "Given influencer_ata/influencer_receiver is not same as proposal's"
-      },
-      {
-        "code": 6004,
-        "name": "UnauthorizedRedeemError",
-        "msg": "Balance can only be redeemed by owner"
-      },
-      {
-        "code": 6005,
-        "name": "UnexpectedSigner",
-        "msg": "Current signer is not proposal's creator"
-      }
-    ],
-    "metadata": {
-      "address": "C86he5HKmQvHpLH2zoZgozwBCm9wkGBYsjBNhmjwNDTU"
     }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "UnexpectedProposalError",
+      "msg": "Given proposal is not same as given product's proposal"
+    },
+    {
+      "code": 6001,
+      "name": "UnexpectedBrandATAError",
+      "msg": "Given brand_ata/brand_receiver is not same as proposal's"
+    },
+    {
+      "code": 6002,
+      "name": "ProposalNotExpectedError",
+      "msg": "Given proposal is not expected by influencer"
+    },
+    {
+      "code": 6003,
+      "name": "UnexpectedInfluencerError",
+      "msg": "Given influencer_ata/influencer_receiver is not same as proposal's"
+    },
+    {
+      "code": 6004,
+      "name": "UnauthorizedRedeemError",
+      "msg": "Balance can only be redeemed by owner"
+    },
+    {
+      "code": 6005,
+      "name": "UnexpectedSigner",
+      "msg": "Current signer is not proposal's creator"
+    }
+  ],
+  "metadata": {
+    "address": "HCbLy5R4323caot2m8sTdh567oRwmurE8QhHDYGJYDFm"
   }
+}

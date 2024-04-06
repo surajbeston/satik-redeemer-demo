@@ -3,14 +3,14 @@ import * as anchor from "@coral-xyz/anchor";
 import BN from 'bn.js';
 
 import { Connection, clusterApiUrl, PublicKey } from "@solana/web3.js";
-import { AnchorProvider, Program } from "@project-serum/anchor";
+import { AnchorProvider, Program, Wallet } from "@project-serum/anchor";
 
 import fs from 'fs';
 
 import { TOKEN_PROGRAM_ID, mintTo } from '@solana/spl-token';
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3000;
 
 
 const idl = JSON.parse(fs.readFileSync('satik.json', 'utf8'));
@@ -31,7 +31,7 @@ const programID = new PublicKey(idl.metadata.address);
 
 const connection = new Connection("https://devnet.helius-rpc.com/?api-key=f34375fa-df6a-425f-8515-e619ad9c9839", commitment);
 
-const provider = new AnchorProvider(connection, wallet.value, {
+const provider = new AnchorProvider(connection, new Wallet(wallet), {
                         preflightCommitment,
                         commitment,
                     })
@@ -42,32 +42,52 @@ const program =  new Program(idl, programID, provider);
 
 const purchases = await program.account.purchase.all();
 
-// console.log(purchases);
-
 app.get('/', async (req, res) => {
-    // const purchaseAddress = new PublicKey(req.query.purchaseAddress);
-    // const purchase = program.account.purchase.fetch(purchaseAddress);
+    if (!req.query.purchaseAddress || !req.query.bump) {
+        res.status(301).send('Please provide purchaseAddress');
+    }
+    try{
+        const purchaseAddress = new PublicKey(req.query.purchaseAddress);
+        const purchase = await program.account.purchase.fetch(purchaseAddress);
 
-    // const redeemDatetimeAddress = new anchor.web3.Keypair.generate();
-    // const mint = new PublicKey("8TYBs78yzk662G5oDv84um73Xthy51nu4mkgKNYcZjzy");
-    
-    // const tx6 = await program.methods.redeemAmount(bump)
-    //                                 .accounts({
-    //                                     redeemDatetime: redeemDatetimeAddress.publicKey,
-    //                                     purchase: purchase,
-    //                                     brandReceiver: purchase.brandReceiver,
-    //                                     influencerReceiver: purchase.influencerReceiver,
-    //                                     satikReceiver: purchase.satikReceiver,
-    //                                     escrow: purchase.escrow,
-    //                                     mint: mint,
-    //                                     tokenProgram: TOKEN_PROGRAM_ID
-    //                                 })
-    //                                 .signers([redeemDatetimeAddress, wallet])
+        const redeemDatetimeAddress = anchor.web3.Keypair.generate();
+        const mint = new PublicKey("8TYBs78yzk662G5oDv84um73Xthy51nu4mkgKNYcZjzy");
+
+        const bump = parseInt(req.query.bump);
+
+        console.log("Escrow Address: ", purchase.escrow.toBase58());
+
+
+
+        const tx6 = await program.methods.redeemAmount(bump)
+                                        .accounts({
+                                            redeemDatetime: redeemDatetimeAddress.publicKey,
+                                            purchase: purchaseAddress,
+                                            brandReceiver: purchase.brandReceiver,
+                                            influencerReceiver: purchase.influencerReceiver,
+                                            // satikReceiver: purchase.satikReceiver,
+                                            escrow: purchase.escrow,
+                                            mint: mint,
+                                            tokenProgram: TOKEN_PROGRAM_ID 
+                                        })
+                                        .signers([redeemDatetimeAddress, wallet])
+                                        .rpc({
+                                            skipPreflight: true
+                                        })
+
+        console.log(tx6)
+    }
+    catch(error) {
+        console.log(error)
+        res.status(500).send("Something went horribly wrong")
+    }
     res.send('Successful response.');
 })
 
 app.get('/mint', async (req, res) => {
-    console.log(req.query);
+    if (!req.query.address || !req.query.amount) {
+        res.status(301).send('Please provide address and amount');
+    }
     const customer_ATA = new PublicKey(req.query.address);
     const amount = req.query.amount;
     const mint = new PublicKey("8TYBs78yzk662G5oDv84um73Xthy51nu4mkgKNYcZjzy");
@@ -80,7 +100,6 @@ app.get('/mint', async (req, res) => {
         mintAuthority.publicKey,
         amount
     )
-    console.log(tx5);
     res.send(req.query);
 })
 
