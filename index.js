@@ -13,7 +13,7 @@ const app = express();
 
 const idl = JSON.parse(fs.readFileSync('satik.json', 'utf8'));
 
-const seeds = JSON.parse(fs.readFileSync('keypair.json', 'utf-8')).key;
+const seeds = JSON.parse(process.env.SEEDS);
 const uintSeeds = Uint8Array.from(seeds)
 const wallet =  anchor.web3.Keypair.fromSecretKey(uintSeeds);
 
