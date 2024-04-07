@@ -1,23 +1,46 @@
-import express from 'express'; 
+import express from "express";
 import * as anchor from "@coral-xyz/anchor";
-import BN from 'bn.js';
+import BN from "bn.js";
 
-import { Connection, clusterApiUrl, PublicKey } from "@solana/web3.js";
+import {
+  Connection,
+  clusterApiUrl,
+  PublicKey,
+  Transaction,
+  SystemProgram,
+  LAMPORTS_PER_SOL,
+  sendAndConfirmTransaction,
+} from "@solana/web3.js";
 import { AnchorProvider, Program, Wallet } from "@project-serum/anchor";
 
-import fs from 'fs';
+import {
+  FunctionAccount,
+  AttestationQueueAccount,
+  SwitchboardProgram,
+  SwitchboardWallet,
+} from "@switchboard-xyz/solana.js";
 
-import { TOKEN_PROGRAM_ID, mintTo } from '@solana/spl-token';
+import { parseRawMrEnclave } from "@switchboard-xyz/common";
+
+import fs from "fs";
+
+import {
+  TOKEN_PROGRAM_ID,
+  mintTo,
+  NATIVE_MINT,
+  syncNative,
+  getOrCreateAssociatedTokenAccount,
+  transfer,
+} from "@solana/spl-token";
 
 const app = express();
 const port = process.env.PORT || 3002;
 
-
-const idl = JSON.parse(fs.readFileSync('satik.json', 'utf8'));
+const idl = JSON.parse(fs.readFileSync("satik.json", "utf8"));
 
 const seeds = JSON.parse(process.env.SEEDS);
-const uintSeeds = Uint8Array.from(seeds)
-const wallet =  anchor.web3.Keypair.fromSecretKey(uintSeeds);
+const uintSeeds = Uint8Array.from(seeds);
+const wallet = anchor.web3.Keypair.fromSecretKey(uintSeeds);
 
 const mintAuthoritySeeds = JSON.parse(process.env.SEEDS);
 const mintAuthorityUint = Uint8Array.from(mintAuthoritySeeds);
@@ -29,14 +52,29 @@ const commitment = "confirmed";
 
 const programID = new PublicKey(idl.metadata.address);
 
-const connection = new Connection("https://devnet.helius-rpc.com/?api-key=f34375fa-df6a-425f-8515-e619ad9c9839", commitment);
+const connection = new Connection(
+  "https://devnet.helius-rpc.com/?api-key=f34375fa-df6a-425f-8515-e619ad9c9839",
+  commitment
+);
+
+let publicAttestationQueuePk = new PublicKey(
+  "CkvizjVnm2zA5Wuwan34NhVT3zFc7vqUyGnA6tuEF5aE"
+);
+
+const mintAddress = new PublicKey(
+  "8TYBs78yzk662G5oDv84um73Xthy51nu4mkgKNYcZjzy"
+);
+
+let mrEnclave = parseRawMrEnclave(
+  "0x7c58b6258153d05036f09c02369e6246cd70d7b20d5379b0e6bbcaa0ad66a8b9"
+);
 
 const provider = new AnchorProvider(connection, new Wallet(wallet), {
-                        preflightCommitment,
-                        commitment,
-                    })
+  preflightCommitment,
+  commitment,
+});
 
-const program =  new Program(idl, programID, provider);
+const program = new Program(idl, programID, provider);
 
 // console.log(program.account)
 
@@ -123,73 +161,157 @@ const htmlContent = `
     </div>
   </body>
 </html>
-`
+`;
 
-app.get('/', async (req, res) => {
-    if (!req.query.purchaseAddress || !req.query.bump) {
-        res.send('Please provide purchaseAddress');
-        return;
-    }
-    try{
-        const purchaseAddress = new PublicKey(req.query.purchaseAddress);
-        const purchase = await program.account.purchase.fetch(purchaseAddress);
-
-        const redeemDatetimeAddress = anchor.web3.Keypair.generate();
-        const mint = new PublicKey("8TYBs78yzk662G5oDv84um73Xthy51nu4mkgKNYcZjzy");
-
-        const bump = parseInt(req.query.bump);
-
-        console.log("Escrow Address: ", purchase.escrow.toBase58());
-
-
-
-        const tx6 = await program.methods.redeemAmount(bump)
-                                        .accounts({
-                                            redeemDatetime: redeemDatetimeAddress.publicKey,
-                                            purchase: purchaseAddress,
-                                            brandReceiver: purchase.brandReceiver,
-                                            influencerReceiver: purchase.influencerReceiver,
-                                            // satikReceiver: purchase.satikReceiver,
-                                            escrow: purchase.escrow,
-                                            mint: mint,
-                                            tokenProgram: TOKEN_PROGRAM_ID 
-                                        })
-                                        .signers([redeemDatetimeAddress, wallet])
-                                        .rpc({
-                                            skipPreflight: true
-                                        })
-
-        console.log(tx6)
-    }
-    catch(error) {
-        console.log(error)
-        res.status(500).send("Something went horribly wrong")
-    }
-    res.send(htmlContent);
+app.get("/", async (req, res) => {
+  if (!req.query.purchaseAddress || !req.query.bump) {
+    res.send("Please provide purchaseAddress");
     return;
-})
+  }
+  try {
+    const purchaseAddress = new PublicKey(req.query.purchaseAddress);
+    const purchase = await program.account.purchase.fetch(purchaseAddress);
 
-app.get('/mint', async (req, res) => {
-    if (!req.query.address || !req.query.amount) {
-        res.status(301).send('Please provide address and amount');
-        return;
-    }
-    const customer_ATA = new PublicKey(req.query.address);
-    const amount = req.query.amount;
+    const redeemDatetimeAddress = anchor.web3.Keypair.generate();
     const mint = new PublicKey("8TYBs78yzk662G5oDv84um73Xthy51nu4mkgKNYcZjzy");
 
-    const tx5 = await mintTo(
-        program.provider.connection,
-        mintAuthority,
-        mint,
-        customer_ATA,
-        mintAuthority.publicKey,
-        amount
-    )
-    res.send(req.query);
+    const bump = parseInt(req.query.bump);
+
+    console.log("Escrow Address: ", purchase.escrow.toBase58());
+
+    const tx6 = await program.methods
+      .redeemAmount(bump)
+      .accounts({
+        redeemDatetime: redeemDatetimeAddress.publicKey,
+        purchase: purchaseAddress,
+        brandReceiver: purchase.brandReceiver,
+        influencerReceiver: purchase.influencerReceiver,
+        // satikReceiver: purchase.satikReceiver,
+        escrow: purchase.escrow,
+        mint: mint,
+        tokenProgram: TOKEN_PROGRAM_ID,
+      })
+      .signers([redeemDatetimeAddress, wallet])
+      .rpc({
+        skipPreflight: true,
+      });
+
+    console.log(tx6);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Something went horribly wrong");
+  }
+  res.send(htmlContent);
+  return;
+});
+
+app.get("/mint", async (req, res) => {
+  if (!req.query.address || !req.query.amount) {
+    res.status(301).send("Please provide address and amount");
     return;
-})
+  }
+  const customer_ATA = new PublicKey(req.query.address);
+  const amount = req.query.amount;
+  const mint = new PublicKey("8TYBs78yzk662G5oDv84um73Xthy51nu4mkgKNYcZjzy");
 
+  const tx5 = await mintTo(
+    program.provider.connection,
+    mintAuthority,
+    mint,
+    customer_ATA,
+    mintAuthority.publicKey,
+    amount
+  );
+  res.send(req.query);
+  return;
+});
 
+app.get("/schedule-payment", async (req, res) => {
+  if (!req.query.deal) {
+    res.status(301).send("Please provide deal");
+    return;
+  }
+  let dealPDA = req.query.deal;
 
-app.listen(port, () => console.log('Example app is listening on port 3000.'));
+  let walletWSOL = await getOrCreateAssociatedTokenAccount(
+    connection,
+    wallet,
+    NATIVE_MINT,
+    wallet.publicKey
+  );
+
+  let functionAccount;
+  let publicAttestationQueue;
+
+  let switchboard = await SwitchboardProgram.fromProvider(provider);
+
+  [publicAttestationQueue] = await AttestationQueueAccount.load(
+    switchboard,
+    publicAttestationQueuePk
+  );
+
+  [functionAccount] = await FunctionAccount.create(switchboard, {
+    attestationQueue: publicAttestationQueue,
+    container: "sauravniraula/api_feed",
+    containerRegistry: "dockerhub",
+    name: "Payment Feed",
+    mrEnclave,
+  });
+  // console.log("Function Account " + functionAccount.publicKey.toBase58());
+
+  const routineKeypair = anchor.web3.Keypair.generate();
+
+  const txx = new Transaction().add(
+    SystemProgram.transfer({
+      fromPubkey: wallet.publicKey,
+      toPubkey: walletWSOL.address,
+      lamports: LAMPORTS_PER_SOL / 2,
+    })
+  );
+  await sendAndConfirmTransaction(connection, txx, [wallet]);
+  await syncNative(connection, wallet, walletWSOL.address);
+
+  const escrowWallet = SwitchboardWallet.fromSeed(
+    switchboard,
+    publicAttestationQueuePk,
+    wallet.publicKey,
+    functionAccount.publicKey
+  );
+
+  // console.log("Escrow wallet " + functionAccount.publicKey.toBase58());
+  // console.log("Amount ", await escrowWallet.getBalance());
+  await transfer(
+    connection,
+    wallet,
+    walletWSOL.address,
+    escrowWallet.tokenWallet,
+    wallet.publicKey,
+    LAMPORTS_PER_SOL / 2
+  );
+  // console.log("Amount ", await escrowWallet.getBalance());
+
+  const tx = await program.methods
+    .scheduleFeed()
+    .accounts({
+      deal: new PublicKey(dealPDA),
+      switchboardAttestation: switchboard.attestationProgramId,
+      switchboardAttestationQueue: publicAttestationQueuePk,
+      switchboardFunction: functionAccount.publicKey,
+      routine: routineKeypair.publicKey,
+      escrowWallet: escrowWallet.publicKey,
+      escrowTokenWallet: anchor.utils.token.associatedAddress({
+        mint: NATIVE_MINT,
+        owner: escrowWallet.publicKey,
+      }),
+      switchboardMint: NATIVE_MINT,
+      functionAccountAuthority: wallet.publicKey,
+      payer: wallet.publicKey,
+    })
+    .signers([routineKeypair])
+    .rpc();
+
+  res.send("done");
+  return;
+});
+
+app.listen(port, () => console.log("Example app is listening on port 3000."));
