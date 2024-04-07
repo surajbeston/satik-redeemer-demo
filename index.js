@@ -114,7 +114,7 @@ const htmlContent = `
           fill-rule="evenodd"
         />
       </svg>
-      <h3 class="payment_successful">Payment has been received for $20</h3>
+      <h3 class="payment_successful">Payment has been received for $3</h3>
       <h1 class="title">
         Your <span class="highlight">NEBULA</span> subscription was successful!
       </h1>
